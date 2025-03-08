@@ -1,1 +1,84 @@
 # Headshot.io
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPS Game Web</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+        <script src="game.js"></script>
+    </div>
+</body>
+</html>
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #87CEEB; /* Luchtblauwe achtergrond */
+}
+
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+canvas {
+    border: 1px solid black;
+}
+const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+let player;
+let cursors;
+let playerSpeed = 5;
+
+let game = new Phaser.Game(config);
+
+function preload() {
+    // Laad een afbeelding voor de speler (je kunt deze vervangen door een echte afbeelding of 3D-model)
+    this.load.image('player', 'https://via.placeholder.com/50');
+}
+
+function create() {
+    player = this.add.sprite(400, 300, 'player'); // Zet de speler op het canvas
+
+    // Maak toetsen voor beweging (WASD)
+    cursors = this.input.keyboard.addKeys({
+        up: Phaser.Input.Keyboard.KeyCodes.W,
+        left: Phaser.Input.Keyboard.KeyCodes.A,
+        down: Phaser.Input.Keyboard.KeyCodes.S,
+        right: Phaser.Input.Keyboard.KeyCodes.D
+    });
+}
+
+function update() {
+    // Beweging van de speler met WASD
+    if (cursors.left.isDown) {
+        player.x -= playerSpeed;
+    }
+    if (cursors.right.isDown) {
+        player.x += playerSpeed;
+    }
+    if (cursors.up.isDown) {
+        player.y -= playerSpeed;
+    }
+    if (cursors.down.isDown) {
+        player.y += playerSpeed;
+    }
+}
+
